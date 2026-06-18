@@ -9,9 +9,20 @@ import SwiftUI
 
 @main
 struct TPlanAppApp: App {
+    
+    @State private var hasCompletedOnboarding = false
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NavigationStack {
+                if hasCompletedOnboarding {
+                    ContentView()
+                } else {
+                    OnBoardingView(
+                        hasCompletedOnboarding: $hasCompletedOnboarding
+                    )
+                }
+            }
         }
     }
 }

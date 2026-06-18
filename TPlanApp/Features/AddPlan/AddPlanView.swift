@@ -64,28 +64,13 @@ struct AddPlanView: View {
             
             // Header
             ZStack {
-                HStack {
-                    Button {
-                        dismiss()
-                    } label: {
-                        Image(systemName: "chevron.left")
-                            .font(.title2.weight(.semibold))
-                            .foregroundStyle(Color(.indigo))
-                            .frame(width: 52, height: 52)
-                            .background(Circle().fill(Color.white))
-                            .shadow(color: .black.opacity(0.08), radius: 10, x: 0, y: 4)
-                    }
-                    .accessibilityLabel("Back")
-                    
-                    Spacer()
-                }
                 
                 Text(mode.title)
                     .font(.title2.weight(.bold))
                     .foregroundStyle(Color(.indigo).opacity(0.9))
             }
             .padding(.horizontal, 28)
-            .padding(.top, 60)
+            .padding(.top, 70)
             .padding(.bottom, 24)
             
             ScrollView(showsIndicators: false) {
@@ -155,7 +140,11 @@ struct AddPlanView: View {
                         Divider()
                             .opacity(0.25)
                         
-                        TimeSectionView()
+                        TimeRowSelector(title: "Start", selectedDate: $startDate)
+
+                        Divider().opacity(0.25)
+
+                        TimeRowSelector(title: "End", selectedDate: $endDate)
                     }
                     .font(.body)
                     .background(
@@ -219,7 +208,7 @@ struct AddPlanView: View {
             
             VStack(spacing: 18) {
                 Button {
-                    // TODO: save plan
+                    dismiss()
                 } label: {
                     Text(mode.buttonTitle)
                         .font(.title3.weight(.bold))
@@ -272,7 +261,9 @@ struct Plan: Identifiable {
     var startDate: Date
     var endDate: Date
     var collaboratorText: String
+    var collaborators: [String]
     var category: PlanCategory
+    var isAllDay: Bool
 }
 
 enum AddPlanMode {
@@ -295,6 +286,26 @@ enum AddPlanMode {
         case .edit:
             return "Save Changes"
         }
+    }
+}
+
+extension Date {
+    static func custom(
+        year: Int,
+        month: Int,
+        day: Int,
+        hour: Int = 0,
+        minute: Int = 0
+    ) -> Date {
+        Calendar.current.date(
+            from: DateComponents(
+                year: year,
+                month: month,
+                day: day,
+                hour: hour,
+                minute: minute
+            )
+        ) ?? Date()
     }
 }
 

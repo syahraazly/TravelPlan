@@ -6,16 +6,80 @@
 //
 
 import SwiftUI
+
 struct HomeView: View {
     
-    @ScaledMetric private var addButtonSize: CGFloat = 40
-    
+    @ScaledMetric private var addButtonSize: CGFloat = 50
     @State private var selectedDay: Int = 2
     
-    let datesWithEvents: Set<Int> = [2]
+    let plans: [Plan] = [
+        
+        Plan(
+            title: "Go to Bandung",
+            location: "Jl. Bandung No. 26A",
+            startDate: .custom(year: 2026, month: 6, day: 10),
+            endDate: .custom(year: 2026, month: 6, day: 10),
+            collaboratorText: "",
+            collaborators: [],
+            category: .city,
+            isAllDay: true
+        ),
+        
+        Plan(
+            title: "Ayam Seruni",
+            location: "Jl. Padjajaran 1 No. 39 Blok B",
+            startDate: .custom(year: 2026, month: 6, day: 10, hour: 7, minute: 30),
+            endDate: .custom(year: 2026, month: 6, day: 10, hour: 9, minute: 0),
+            collaboratorText: "Diana, Ichi, Dina",
+            collaborators: [
+                "Diana",
+                "Ichi",
+                "Dina"
+            ],
+            category: .food,
+            isAllDay: false
+        ),
+        
+        Plan(
+            title: "Ranca Upas",
+            location: "Jl. Ahmad Yani No. 29A",
+            startDate: .custom(year: 2026, month: 6, day: 10, hour: 9, minute: 0),
+            endDate: .custom(year: 2026, month: 6, day: 10, hour: 15, minute: 30),
+            collaboratorText: "",
+            collaborators: [],
+            category: .nature,
+            isAllDay: false
+        ),
+        
+        Plan(
+            title: "Bakso Bintang Asia",
+            location: "Jl. Cihapit No. 9A",
+            startDate: .custom(year: 2026, month: 6, day: 10, hour: 15, minute: 30),
+            endDate: .custom(year: 2026, month: 6, day: 10, hour: 17, minute: 0),
+            collaboratorText: "",
+            collaborators: [],
+            category: .food,
+            isAllDay: false
+        ),
+        
+        Plan(
+            title: "Braga Street",
+            location: "Jl. Braga Asia No. 6A",
+            startDate: .custom(year: 2026, month: 6, day: 10, hour: 17, minute: 0),
+            endDate: .custom(year: 2026, month: 6, day: 10, hour: 18, minute: 0),
+            collaboratorText: "",
+            collaborators: [],
+            category: .city,
+            isAllDay: false
+        )
+    ]
     
-    private var selectedDayHasEvent: Bool {
-        datesWithEvents.contains(selectedDay)
+    private var datesWithEvents: Set<Int> {
+        [2]
+    }
+    
+    private var selectedPlans: [Plan] {
+        datesWithEvents.contains(selectedDay) ? plans : []
     }
     
     var body: some View {
@@ -30,18 +94,14 @@ struct HomeView: View {
                 
                 Spacer()
                 
-                
                 NavigationLink {
                     AddPlanView(mode: .add)
                 } label: {
                     Image(systemName: "plus")
-                        .font(.title2.weight(.bold))
+                        .font(.title.weight(.bold))
                         .foregroundStyle(.white)
                         .frame(width: addButtonSize, height: addButtonSize)
-                        .background(
-                            Circle()
-                                .fill(Color.primaryBlue)
-                        )
+                        .background(Circle().fill(Color.primaryBlue))
                 }
                 .buttonStyle(.plain)
             }
@@ -70,112 +130,7 @@ struct HomeView: View {
                     .padding(.top, 36)
                     .padding(.bottom, 20)
                     
-                    if selectedDayHasEvent {
-                        VStack(spacing: 20) {
-                            NavigationLink {
-                                DetailPlanView(
-                                    title: "Go to Bandung",
-                                    category: .city,
-                                    dateText: "Wednesday, 10 June 2026",
-                                    timeText: "All Day",
-                                    collaborators: []
-                                )
-                            } label: {
-                                ActivityCard(
-                                    title: "Go to Bandung",
-                                    subtitle: "All Day",
-                                    locationText: "Jl. Bandung No. 26A",
-                                    leadingSystemImage: "building.2.fill",
-                                    iconColor: .cityCategory,
-                                    iconBackground: .cityCategory.opacity(0.10),
-                                    cardBackground: .white
-                                )
-                            }
-                            .buttonStyle(.plain)
-                            NavigationLink {
-                                DetailPlanView(
-                                    title: "Ayam Seruni",
-                                    category: .food,
-                                    dateText: "Wednesday, 10 June 2026",
-                                    timeText: "07.00 - 08.30",
-                                    collaborators: []
-                                )
-                            } label: {
-                                ActivityCard(
-                                    title: "Ayam Seruni",
-                                    subtitle: "07.30 - 09.00",
-                                    locationText: "Jl. Padjajaran 1 No. 39 Blok B",
-                                    leadingSystemImage: "fork.knife",
-                                    iconColor: .orange,
-                                    iconBackground: .orange.opacity(0.10),
-                                    cardBackground: .white
-                                )
-                            }
-                            .buttonStyle(.plain)
-                            NavigationLink {
-                                DetailPlanView(
-                                    title: "Ranca Upas",
-                                    category: .nature,
-                                    dateText: "Wednesday, 10 June 2026",
-                                    timeText: "09.00 - 15.30",
-                                    collaborators: []
-                                )
-                            } label: {
-                                ActivityCard(
-                                    title: "Ranca Upas",
-                                    subtitle: "09.00 - 15.30",
-                                    locationText: "Jl. Ahmad Yani No. 29A",
-                                    leadingSystemImage: "tree.fill",
-                                    iconColor: .natureCategory,
-                                    iconBackground: .natureCategory.opacity(0.12),
-                                    cardBackground: .white
-                                )
-                            }
-                            .buttonStyle(.plain)
-                            NavigationLink {
-                                DetailPlanView(
-                                    title: "Bakso Bintang Asia",
-                                    category: .food,
-                                    dateText: "Wednesday, 10 June 2026",
-                                    timeText: "15.30 - 17.00",
-                                    collaborators: []
-                                )
-                            } label: {
-                                ActivityCard(
-                                    title: "Bakso Bintang Asia",
-                                    subtitle: "15.30 - 17.00",
-                                    locationText: "Jl. Cihapit No. 9A",
-                                    leadingSystemImage: "fork.knife",
-                                    iconColor: .foodCategory,
-                                    iconBackground: .foodCategory.opacity(0.10),
-                                    cardBackground: .white
-                                )
-                            }
-                            .buttonStyle(.plain)
-                            NavigationLink {
-                                DetailPlanView(
-                                    title: "Braga Street",
-                                    category: .city,
-                                    dateText: "Wednesday, 10 June 2026",
-                                    timeText: "17.00 - 18.00",
-                                    collaborators: []
-                                )
-                            } label: {
-                                ActivityCard(
-                                    title: "Braga Street",
-                                    subtitle: "17.00 - 18.00",
-                                    locationText: "Jl. Braga Asia No. 6A",
-                                    leadingSystemImage: "building.2.fill",
-                                    iconColor: .cityCategory,
-                                    iconBackground: .cityCategory.opacity(0.10),
-                                    cardBackground: .white
-                                )
-                            }
-                            .buttonStyle(.plain)
-                        }
-                        .padding(.horizontal)
-                        .padding(.bottom, 32)
-                    } else {
+                    if selectedPlans.isEmpty {
                         EmptyActivityView()
                             .padding(.horizontal)
                             .padding(.bottom, 28)
@@ -183,6 +138,27 @@ struct HomeView: View {
                         AddActivityButton()
                             .padding(.horizontal)
                             .padding(.bottom, 32)
+                    } else {
+                        VStack(spacing: 20) {
+                            ForEach(selectedPlans) { plan in
+                                NavigationLink {
+                                    DetailPlanView(plan: plan)
+                                } label: {
+                                    ActivityCard(
+                                        title: plan.title,
+                                        subtitle: plan.isAllDay ? "All Day" : "07.00 - 08.30",
+                                        locationText: plan.location,
+                                        leadingSystemImage: plan.category.icon,
+                                        iconColor: plan.category.color,
+                                        iconBackground: plan.category.color.opacity(0.10),
+                                        cardBackground: .white
+                                    )
+                                }
+                                .buttonStyle(.plain)
+                            }
+                        }
+                        .padding(.horizontal)
+                        .padding(.bottom, 32)
                     }
                 }
             }
@@ -195,3 +171,4 @@ struct HomeView: View {
 #Preview {
     HomeView()
 }
+

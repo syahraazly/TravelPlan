@@ -11,15 +11,26 @@ struct DetailPlanView: View {
     
     @Environment(\.dismiss) private var dismiss
     
-    let title: String
-    let category: PlanCategory
-    let dateText: String
-    let timeText: String
-    let collaborators: [String]
+    let plan: Plan
     
     @State private var collaborator: String = ""
     @State private var showCollaborators = false
     @State private var selectedCollaborators: Set<String> = ["Ichi", "Dina"]
+    
+    private var dateText: String {
+        plan.startDate.formatted(.dateTime.weekday(.wide).day().month(.wide).year())
+    }
+    
+    private var timeText: String {
+        if plan.isAllDay {
+            return "All Day"
+        }
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH.mm"
+        
+        return "\(formatter.string(from: plan.startDate)) - \(formatter.string(from: plan.endDate))"
+    }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -38,18 +49,7 @@ struct DetailPlanView: View {
                 Spacer()
                 
                 NavigationLink {
-                    AddPlanView(
-                        mode: .edit(
-                            Plan(
-                                title: "Ayam Seruni",
-                                location: "Jl. Padjajaran 1 No. 39 Blok B",
-                                startDate: Date(),
-                                endDate: Date().addingTimeInterval(5400),
-                                collaboratorText: "Diana, Ichi, Dina",
-                                category: .food
-                            )
-                        )
-                    )
+                    AddPlanView(mode: .edit(plan))
                 } label: {
                     Image(systemName: "note.text.badge.plus")
                         .font(.title3.weight(.bold))
@@ -66,15 +66,15 @@ struct DetailPlanView: View {
             HStack(spacing: 10) {
                 ZStack {
                     RoundedRectangle(cornerRadius: 10)
-                        .fill(category.color.opacity(0.12))
+                        .fill(plan.category.color.opacity(0.12))
                     
-                    Image(systemName: category.icon)
+                    Image(systemName: plan.category.icon)
                         .font(.title2.weight(.regular))
-                        .foregroundStyle(category.color)
+                        .foregroundStyle(plan.category.color)
                 }
                 .frame(width: 40, height: 40)
                 
-                Text(title)
+                Text(plan.title)
                     .font(.title.weight(.medium))
                     .foregroundStyle(Color(.indigo).opacity(0.9))
                     .lineLimit(2)
@@ -108,18 +108,17 @@ struct DetailPlanView: View {
                 .padding(.horizontal, 32)
                 .padding(.bottom, 14)
             
-            if collaborators.isEmpty {
+            if plan.collaborators.isEmpty {
                 NoCollaboratorView()
                     .padding(.horizontal, 32)
                     .padding(.bottom, 24)
             } else {
-                CollaboratorAvatarList(collaborators: collaborators)
+                CollaboratorAvatarList(collaborators: plan.collaborators)
                     .padding(.horizontal, 32)
                     .padding(.bottom, 24)
             }
             
             Button {
-                // TODO: add collaborators
                 showCollaborators = true
             } label: {
                 Label("Add Collaborators", systemImage: "plus")
@@ -152,10 +151,15 @@ struct DetailPlanView: View {
 
 #Preview {
     DetailPlanView(
-        title: "Ayam Seruni",
-        category: .food,
-        dateText: "Wednesday, 10 June 2026",
-        timeText: "07.00 - 08.30",
-        collaborators: ["Asep", "Budi", "Cendri"]
+        plan: Plan(
+            title: "Ayam Seruni",
+            location: "Jl. Padjajaran 1 No. 39 Blok B",
+            startDate: .custom(year: 2026, month: 6, day: 10, hour: 7, minute: 0),
+            endDate: .custom(year: 2026, month: 6, day: 10, hour: 8, minute: 30),
+            collaboratorText: "Asep, Budi, Cendri",
+            collaborators: ["Asep", "Budi", "Cendri"],
+            category: .food,
+            isAllDay: false
+        )
     )
 }

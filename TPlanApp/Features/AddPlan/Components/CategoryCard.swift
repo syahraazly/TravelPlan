@@ -21,7 +21,7 @@ struct CategoryCard: View {
                     .font(.system(size: iconSize, weight: .semibold))
                 
                 Text(category.rawValue)
-                    .font(.subheadline.weight(.medium))
+                    .font(.caption.weight(.regular))
                     .lineLimit(1)
                     .minimumScaleFactor(0.75)
             }

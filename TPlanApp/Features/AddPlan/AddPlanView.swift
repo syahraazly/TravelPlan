@@ -12,10 +12,16 @@ struct AddPlanView: View {
     @Environment(\.dismiss) private var dismiss
     
     @State private var activity: String = ""
-    @State private var location: String = ""
-    @State private var collaborator: String = ""
+    
     @State private var isAllDay: Bool = false
     @State private var selectedCategory: PlanCategory = .city
+    
+    @State private var location: String = ""
+    @State private var showLocationSheet = false
+    
+    @State private var collaborator: String = ""
+    @State private var showCollaborators = false
+    @State private var selectedCollaborators: Set<String> = ["Ichi", "Dina"]
     
     var body: some View {
         VStack(spacing: 0) {
@@ -47,28 +53,54 @@ struct AddPlanView: View {
             .padding(.bottom, 24)
             
             ScrollView(showsIndicators: false) {
-                VStack(alignment: .leading, spacing: 22) {
+                VStack(alignment: .leading, spacing: 5) {
                     
                     // Activity
                     SectionTitle("Activity")
                     
                     VStack(spacing: 0) {
                         TextField("Enter your activity", text: $activity)
+                            .foregroundStyle(
+                                activity.isEmpty
+                                ? Color(.indigo).opacity(0.7)
+                                : Color(.indigo)
+                            )
                             .padding(.horizontal, 18)
                             .frame(height: 62)
                         
                         Divider()
                             .opacity(0.25)
                         
-                        TextField("Enter your location", text: $location)
+                        Button {
+                            showLocationSheet = true
+                        } label: {
+                            HStack {
+                                Text(location.isEmpty ? "Enter your location" : location)
+                                    .foregroundStyle(
+                                        location.isEmpty
+                                        ? Color(.indigo).opacity(0.7)
+                                        : Color(.indigo)
+                                    )
+                                
+                                Spacer()
+                            }
+                            .font(.body)
                             .padding(.horizontal, 18)
                             .frame(height: 62)
+                        }
+                        .buttonStyle(.plain)
+                        .sheet(isPresented: $showLocationSheet) {
+                            LocationSheet(selectedLocation: $location)
+                                .presentationDetents([.large])
+                                .presentationDragIndicator(.hidden)
+                        }
                     }
                     .font(.body)
                     .background(
                         RoundedRectangle(cornerRadius: 12)
                             .fill(Color.white)
                     )
+                    .padding(.bottom, 13)
                     
                     // Time
                     SectionTitle("Time")
@@ -93,11 +125,24 @@ struct AddPlanView: View {
                         RoundedRectangle(cornerRadius: 12)
                             .fill(Color.white)
                     )
+                    .padding(.bottom, 13)
                     
                     // Collaborator
                     SectionTitle("Collaborator")
                     
-                    TextField("Enter your collaborator", text: $collaborator)
+                    Button {
+                        showCollaborators = true
+                    } label: {
+                        HStack {
+                            Text(collaborator.isEmpty ? "Enter your collaborator" : collaborator)
+                                .foregroundStyle(
+                                    collaborator.isEmpty
+                                    ? Color(.indigo).opacity(0.7)
+                                    : Color(.indigo)
+                                )
+                            
+                            Spacer()
+                        }
                         .font(.body)
                         .padding(.horizontal, 18)
                         .frame(height: 62)
@@ -105,6 +150,17 @@ struct AddPlanView: View {
                             RoundedRectangle(cornerRadius: 12)
                                 .fill(Color.white)
                         )
+                    }
+                    .buttonStyle(.plain)
+                    .padding(.bottom, 13)
+                    .sheet(isPresented: $showCollaborators) {
+                        CollaboratorsSheet(
+                            selectedCollaborators: $selectedCollaborators,
+                            collaboratorText: $collaborator
+                        )
+                        .presentationDetents([.large])
+                        .presentationDragIndicator(.hidden)
+                    }
                     
                     // Category
                     SectionTitle("Category")
@@ -167,8 +223,8 @@ struct SectionTitle: View {
     
     var body: some View {
         Text(title)
-            .font(.title3.weight(.regular))
-            .foregroundStyle(Color(.indigo).opacity(0.9))
+            .font(.title3.weight(.medium))
+            .foregroundStyle(Color(.indigo))
     }
 }
 

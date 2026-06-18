@@ -30,7 +30,8 @@ struct TimeRowSelector: View {
         VStack(spacing: 0) {
             HStack {
                 Text(title)
-                    .foregroundStyle(Color(.indigo).opacity(0.9))
+                    .foregroundStyle(Color(.indigo))
+                    .font(.callout.weight(.light))
                 
                 Spacer()
                 
@@ -40,7 +41,7 @@ struct TimeRowSelector: View {
                     }
                 } label: {
                     Text(dateText)
-                        .font(.subheadline)
+                        .font(.caption.weight(.light))
                         .padding(.horizontal, 10)
                         .padding(.vertical, 6)
                         .background(Capsule().fill(Color(.platinum)))
@@ -53,7 +54,7 @@ struct TimeRowSelector: View {
                     }
                 } label: {
                     Text(timeText)
-                        .font(.subheadline)
+                        .font(.caption.weight(.light))
                         .padding(.horizontal, 10)
                         .padding(.vertical, 6)
                         .background(Capsule().fill(Color(.platinum)))

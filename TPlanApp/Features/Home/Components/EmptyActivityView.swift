@@ -14,8 +14,8 @@ struct EmptyActivityView: View {
     
     var body: some View {
         VStack(spacing: 28) {
-            Text("NO PLAN TODAY")
-                .font(.title3.weight(.regular))
+            Text("NO ACTIVITY TODAY")
+                .font(.title3.weight(.medium))
                 .foregroundStyle(.gray.opacity(0.55))
                 .lineLimit(1)
                 .minimumScaleFactor(0.7)

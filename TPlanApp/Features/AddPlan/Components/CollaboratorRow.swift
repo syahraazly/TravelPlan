@@ -17,7 +17,7 @@ struct CollaboratorRow: View {
             ZStack {
                 Circle()
                     .fill(Color.pink.opacity(0.9))
-                    .frame(width: 32, height: 32)
+                    .frame(width: 25, height: 25)
                 
                 Image(systemName: "person.fill")
                     .font(.caption.weight(.bold))
@@ -26,7 +26,7 @@ struct CollaboratorRow: View {
             
             Text(name)
                 .font(.callout.weight(.regular))
-                .foregroundStyle(Color(.indigo).opacity(0.9))
+                .foregroundStyle(Color(.indigo))
             
             Spacer()
             
@@ -35,7 +35,7 @@ struct CollaboratorRow: View {
                     .font(.footnote.weight(.bold))
                     .foregroundStyle(isAdded ? .white : Color(.indigo))
                     .padding(.horizontal, 18)
-                    .padding(.vertical, 7)
+                    .padding(.vertical, 4)
                     .background(
                         Capsule()
                             .fill(isAdded ? Color(.indigo) : Color.clear)
@@ -47,7 +47,7 @@ struct CollaboratorRow: View {
             }
         }
         .padding(.horizontal, 12)
-        .frame(height: 56)
+        .frame(height: 45)
         .background(
             RoundedRectangle(cornerRadius: 10)
                 .fill(Color(.platinum))

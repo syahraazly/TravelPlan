@@ -43,7 +43,7 @@ struct ActivityCard: View {
         HStack(alignment: .center, spacing: 12) {
             // Leading icon with rounded square background
             ZStack {
-                RoundedRectangle(cornerRadius: 12, style: .continuous)
+                RoundedRectangle(cornerRadius: 10, style: .continuous)
                     .fill(iconBackground)
                     .frame(width: 60, height: 60)
                     .accessibilityHidden(true)
@@ -53,15 +53,15 @@ struct ActivityCard: View {
                     .foregroundStyle(iconColor)
             }
 
-            VStack(alignment: .leading, spacing: 6) {
+            VStack(alignment: .leading, spacing: 3) {
                 Text(title)
-                    .font(.title3.weight(.medium))
+                    .font(.body.weight(.regular))
                     .lineLimit(2)
                     .minimumScaleFactor(0.85)
                     .foregroundStyle(.primary)
 
                 Text(subtitle)
-                    .font(.subheadline.weight(.light))
+                    .font(.footnote.weight(.light))
                     .lineLimit(2)
                     .minimumScaleFactor(0.85)
 

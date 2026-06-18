@@ -10,18 +10,54 @@ import SwiftUI
 struct AddPlanView: View {
     
     @Environment(\.dismiss) private var dismiss
+        
+    let mode: AddPlanMode
     
-    @State private var activity: String = ""
+    @State private var activity: String
+    @State private var isAllDay: Bool
+    @State private var selectedCategory: PlanCategory
     
-    @State private var isAllDay: Bool = false
-    @State private var selectedCategory: PlanCategory = .city
-    
-    @State private var location: String = ""
+    @State private var location: String
     @State private var showLocationSheet = false
     
-    @State private var collaborator: String = ""
+    @State private var collaborator: String
     @State private var showCollaborators = false
-    @State private var selectedCollaborators: Set<String> = ["Ichi", "Dina"]
+    @State private var selectedCollaborators: Set<String>
+    
+    @State private var startDate: Date
+    @State private var endDate: Date
+    
+    init(mode: AddPlanMode = .add) {
+        self.mode = mode
+        
+        switch mode {
+        case .add:
+            _activity = State(initialValue: "")
+            _isAllDay = State(initialValue: false)
+            _location = State(initialValue: "")
+            _startDate = State(initialValue: Date())
+            _endDate = State(initialValue: Date().addingTimeInterval(3600))
+            _collaborator = State(initialValue: "")
+            _selectedCollaborators = State(initialValue: [])
+            _selectedCategory = State(initialValue: .city)
+            
+        case .edit(let plan):
+            _activity = State(initialValue: plan.title)
+            _isAllDay = State(initialValue: false)
+            _location = State(initialValue: plan.location)
+            _startDate = State(initialValue: plan.startDate)
+            _endDate = State(initialValue: plan.endDate)
+            _collaborator = State(initialValue: plan.collaboratorText)
+            _selectedCollaborators = State(
+                initialValue: Set(
+                    plan.collaboratorText
+                        .split(separator: ",")
+                        .map { $0.trimmingCharacters(in: .whitespaces) }
+                )
+            )
+            _selectedCategory = State(initialValue: plan.category)
+        }
+    }
     
     var body: some View {
         VStack(spacing: 0) {
@@ -44,7 +80,7 @@ struct AddPlanView: View {
                     Spacer()
                 }
                 
-                Text("Add Plan")
+                Text(mode.title)
                     .font(.title2.weight(.bold))
                     .foregroundStyle(Color(.indigo).opacity(0.9))
             }
@@ -78,7 +114,7 @@ struct AddPlanView: View {
                                 Text(location.isEmpty ? "Enter your location" : location)
                                     .foregroundStyle(
                                         location.isEmpty
-                                        ? Color(.indigo).opacity(0.7)
+                                        ? Color(.indigo).opacity(0.3)
                                         : Color(.indigo)
                                     )
                                 
@@ -108,6 +144,7 @@ struct AddPlanView: View {
                     VStack(spacing: 0) {
                         HStack {
                             Text("All Day")
+                                .font(.callout.weight(.light))
                             Spacer()
                             Toggle("", isOn: $isAllDay)
                                 .labelsHidden()
@@ -137,7 +174,7 @@ struct AddPlanView: View {
                             Text(collaborator.isEmpty ? "Enter your collaborator" : collaborator)
                                 .foregroundStyle(
                                     collaborator.isEmpty
-                                    ? Color(.indigo).opacity(0.7)
+                                    ? Color(.indigo).opacity(0.3)
                                     : Color(.indigo)
                                 )
                             
@@ -184,14 +221,14 @@ struct AddPlanView: View {
                 Button {
                     // TODO: save plan
                 } label: {
-                    Text("Save Plan")
+                    Text(mode.buttonTitle)
                         .font(.title3.weight(.bold))
                         .foregroundStyle(.white)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 14)
                         .background(
                             RoundedRectangle(cornerRadius: 10)
-                                .fill(Color.blue)
+                                .fill(Color.primaryBlue)
                         )
                 }
                 .accessibilityLabel("Save plan")
@@ -225,6 +262,39 @@ struct SectionTitle: View {
         Text(title)
             .font(.title3.weight(.medium))
             .foregroundStyle(Color(.indigo))
+    }
+}
+
+struct Plan: Identifiable {
+    let id = UUID()
+    var title: String
+    var location: String
+    var startDate: Date
+    var endDate: Date
+    var collaboratorText: String
+    var category: PlanCategory
+}
+
+enum AddPlanMode {
+    case add
+    case edit(Plan)
+    
+    var title: String {
+        switch self {
+        case .add:
+            return "Add Plan"
+        case .edit:
+            return "Edit Plan"
+        }
+    }
+    
+    var buttonTitle: String {
+        switch self {
+        case .add:
+            return "Save Plan"
+        case .edit:
+            return "Save Changes"
+        }
     }
 }
 

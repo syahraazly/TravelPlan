@@ -30,15 +30,20 @@ struct HomeView: View {
                 
                 Spacer()
                 
-                Button {
-                    // TODO: handle add action
+                
+                NavigationLink {
+                    AddPlanView(mode: .add)
                 } label: {
                     Image(systemName: "plus")
                         .font(.title2.weight(.bold))
                         .foregroundStyle(.white)
                         .frame(width: addButtonSize, height: addButtonSize)
-                        .background(Circle().fill(Color.primaryBlue))
+                        .background(
+                            Circle()
+                                .fill(Color.primaryBlue)
+                        )
                 }
+                .buttonStyle(.plain)
             }
             .padding(.horizontal)
             .padding(.top, 60)
@@ -55,7 +60,7 @@ struct HomeView: View {
                     .padding(.horizontal)
                     
                     HStack {
-                        Text("TODAY PLAN")
+                        Text("TODAY ACTIVITY")
                             .font(.title3.weight(.bold))
                             .foregroundStyle(Color(.indigo).opacity(0.9))
                         
@@ -67,51 +72,106 @@ struct HomeView: View {
                     
                     if selectedDayHasEvent {
                         VStack(spacing: 20) {
-                            ActivityCard(
-                                title: "Go to Bandung",
-                                subtitle: "All Day",
-                                locationText: "Jl. Bandung No. 26A",
-                                leadingSystemImage: "building.2.fill",
-                                iconColor: .cityCategory,
-                                iconBackground: .cityCategory.opacity(0.10),
-                                cardBackground: .white
-                            )
-                            ActivityCard(
-                                title: "Ayam Seruni",
-                                subtitle: "07.30 - 09.00",
-                                locationText: "Jl. Padjajaran 1 No. 39 Blok B",
-                                leadingSystemImage: "fork.knife",
-                                iconColor: .foodCategory,
-                                iconBackground: .foodCategory.opacity(0.10),
-                                cardBackground: .white
-                            )
-                            ActivityCard(
-                                title: "Ranca Upas",
-                                subtitle: "09.00 - 15.30",
-                                locationText: "Jl. Ahmad Yani No. 29A",
-                                leadingSystemImage: "tree.fill",
-                                iconColor: .natureCategory,
-                                iconBackground: .natureCategory.opacity(0.12),
-                                cardBackground: .white
-                            )
-                            ActivityCard(
-                                title: "Bakso Bintang Asia",
-                                subtitle: "15.30 - 17.00",
-                                locationText: "Jl. Cihapit No. 9A",
-                                leadingSystemImage: "fork.knife",
-                                iconColor: .foodCategory,
-                                iconBackground: .foodCategory.opacity(0.10),
-                                cardBackground: .white
-                            )
-                            ActivityCard(
-                                title: "Braga Street",
-                                subtitle: "17.00 - 18.00",
-                                locationText: "Jl. Braga Asia No. 6A",
-                                leadingSystemImage: "building.2.fill",
-                                iconColor: .cityCategory,
-                                iconBackground: .cityCategory.opacity(0.10),
-                                cardBackground: .white
-                            )
+                            NavigationLink {
+                                DetailPlanView(
+                                    title: "Go to Bandung",
+                                    category: .city,
+                                    dateText: "Wednesday, 10 June 2026",
+                                    timeText: "All Day",
+                                    collaborators: []
+                                )
+                            } label: {
+                                ActivityCard(
+                                    title: "Go to Bandung",
+                                    subtitle: "All Day",
+                                    locationText: "Jl. Bandung No. 26A",
+                                    leadingSystemImage: "building.2.fill",
+                                    iconColor: .cityCategory,
+                                    iconBackground: .cityCategory.opacity(0.10),
+                                    cardBackground: .white
+                                )
+                            }
+                            .buttonStyle(.plain)
+                            NavigationLink {
+                                DetailPlanView(
+                                    title: "Ayam Seruni",
+                                    category: .food,
+                                    dateText: "Wednesday, 10 June 2026",
+                                    timeText: "07.00 - 08.30",
+                                    collaborators: []
+                                )
+                            } label: {
+                                ActivityCard(
+                                    title: "Ayam Seruni",
+                                    subtitle: "07.30 - 09.00",
+                                    locationText: "Jl. Padjajaran 1 No. 39 Blok B",
+                                    leadingSystemImage: "fork.knife",
+                                    iconColor: .orange,
+                                    iconBackground: .orange.opacity(0.10),
+                                    cardBackground: .white
+                                )
+                            }
+                            .buttonStyle(.plain)
+                            NavigationLink {
+                                DetailPlanView(
+                                    title: "Ranca Upas",
+                                    category: .nature,
+                                    dateText: "Wednesday, 10 June 2026",
+                                    timeText: "09.00 - 15.30",
+                                    collaborators: []
+                                )
+                            } label: {
+                                ActivityCard(
+                                    title: "Ranca Upas",
+                                    subtitle: "09.00 - 15.30",
+                                    locationText: "Jl. Ahmad Yani No. 29A",
+                                    leadingSystemImage: "tree.fill",
+                                    iconColor: .natureCategory,
+                                    iconBackground: .natureCategory.opacity(0.12),
+                                    cardBackground: .white
+                                )
+                            }
+                            .buttonStyle(.plain)
+                            NavigationLink {
+                                DetailPlanView(
+                                    title: "Bakso Bintang Asia",
+                                    category: .food,
+                                    dateText: "Wednesday, 10 June 2026",
+                                    timeText: "15.30 - 17.00",
+                                    collaborators: []
+                                )
+                            } label: {
+                                ActivityCard(
+                                    title: "Bakso Bintang Asia",
+                                    subtitle: "15.30 - 17.00",
+                                    locationText: "Jl. Cihapit No. 9A",
+                                    leadingSystemImage: "fork.knife",
+                                    iconColor: .foodCategory,
+                                    iconBackground: .foodCategory.opacity(0.10),
+                                    cardBackground: .white
+                                )
+                            }
+                            .buttonStyle(.plain)
+                            NavigationLink {
+                                DetailPlanView(
+                                    title: "Braga Street",
+                                    category: .city,
+                                    dateText: "Wednesday, 10 June 2026",
+                                    timeText: "17.00 - 18.00",
+                                    collaborators: []
+                                )
+                            } label: {
+                                ActivityCard(
+                                    title: "Braga Street",
+                                    subtitle: "17.00 - 18.00",
+                                    locationText: "Jl. Braga Asia No. 6A",
+                                    leadingSystemImage: "building.2.fill",
+                                    iconColor: .cityCategory,
+                                    iconBackground: .cityCategory.opacity(0.10),
+                                    cardBackground: .white
+                                )
+                            }
+                            .buttonStyle(.plain)
                         }
                         .padding(.horizontal)
                         .padding(.bottom, 32)

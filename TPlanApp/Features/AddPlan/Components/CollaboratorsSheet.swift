@@ -34,7 +34,7 @@ struct CollaboratorsSheet: View {
             ZStack {
                 Text("Collaborators")
                     .font(.title3.weight(.bold))
-                    .foregroundStyle(Color(.indigo).opacity(0.9))
+                    .foregroundStyle(Color(.indigo))
                 
                 HStack {
                     Spacer()
@@ -44,9 +44,9 @@ struct CollaboratorsSheet: View {
                         dismiss()
                     } label: {
                         Image(systemName: "xmark")
-                            .font(.title2.weight(.medium))
+                            .font(.title3.weight(.bold))
                             .foregroundStyle(Color(.indigo))
-                            .frame(width: 52, height: 52)
+                            .frame(width: 50, height: 50)
                             .background(Circle().fill(Color.white))
                             .shadow(color: .black.opacity(0.08), radius: 10, x: 0, y: 4)
                     }
@@ -63,11 +63,11 @@ struct CollaboratorsSheet: View {
                     .foregroundStyle(Color(.indigo))
                 
                 TextField("Search", text: $searchText)
-                    .font(.body)
+                    .font(.callout.weight(.light))
                     .foregroundStyle(Color(.indigo))
             }
             .padding(.horizontal, 16)
-            .frame(height: 56)
+            .frame(height: 45)
             .background(
                 RoundedRectangle(cornerRadius: 10)
                     .fill(Color(.platinum))

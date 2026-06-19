@@ -69,7 +69,7 @@ struct AddPlanView: View {
                     .font(.title2.weight(.bold))
                     .foregroundStyle(Color(.indigo).opacity(0.9))
             }
-            .padding(.horizontal, 28)
+            .padding(.horizontal)
             .padding(.top, 70)
             .padding(.bottom, 24)
             
@@ -202,7 +202,7 @@ struct AddPlanView: View {
                         }
                     }
                 }
-                .padding(.horizontal, 28)
+                .padding(.horizontal, 20)
                 .padding(.bottom, 120)
             }
             
@@ -231,7 +231,7 @@ struct AddPlanView: View {
                 }
                 .accessibilityLabel("Cancel")
             }
-            .padding(.horizontal, 28)
+            .padding(.horizontal, 20)
             .padding(.bottom, 32)
             .background(Color(.platinum))
         }

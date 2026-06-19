@@ -105,7 +105,7 @@ struct HomeView: View {
                 }
                 .buttonStyle(.plain)
             }
-            .padding(.horizontal)
+            .padding(.horizontal, 20)
             .padding(.top, 60)
             .padding(.bottom, 20)
             .background(Color(.platinum))
@@ -117,7 +117,7 @@ struct HomeView: View {
                         selectedDay: $selectedDay,
                         datesWithEvents: datesWithEvents
                     )
-                    .padding(.horizontal)
+                    .padding(.horizontal, 20)
                     
                     HStack {
                         Text("TODAY ACTIVITY")
@@ -126,7 +126,7 @@ struct HomeView: View {
                         
                         Spacer()
                     }
-                    .padding(.horizontal)
+                    .padding(.horizontal, 20)
                     .padding(.top, 36)
                     .padding(.bottom, 20)
                     
@@ -157,7 +157,7 @@ struct HomeView: View {
                                 .buttonStyle(.plain)
                             }
                         }
-                        .padding(.horizontal)
+                        .padding(.horizontal, 20)
                         .padding(.bottom, 32)
                     }
                 }

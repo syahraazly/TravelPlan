@@ -59,7 +59,7 @@ struct DetailPlanView: View {
                 }
                 .buttonStyle(.plain)
             }
-            .padding(.horizontal, 32)
+            .padding(.horizontal, 20)
             .padding(.top, 60)
             .padding(.bottom, 32)
             
@@ -80,7 +80,7 @@ struct DetailPlanView: View {
                     .lineLimit(2)
                     .minimumScaleFactor(0.75)
             }
-            .padding(.horizontal, 32)
+            .padding(.horizontal, 20)
             .padding(.bottom, 14)
             
             VStack(alignment: .leading, spacing: 10) {
@@ -89,7 +89,7 @@ struct DetailPlanView: View {
             }
             .font(.body.weight(.regular))
             .foregroundStyle(Color(.indigo))
-            .padding(.horizontal, 32)
+            .padding(.horizontal, 20)
             .padding(.bottom, 14)
             
             RoundedRectangle(cornerRadius: 12)
@@ -99,22 +99,22 @@ struct DetailPlanView: View {
                     Text("Map Preview")
                         .foregroundStyle(.white.opacity(0.8))
                 }
-                .padding(.horizontal, 32)
+                .padding(.horizontal, 20)
                 .padding(.bottom, 14)
             
             Text("Collaborators")
                 .font(.title3.weight(.medium))
                 .foregroundStyle(Color(.indigo))
-                .padding(.horizontal, 32)
+                .padding(.horizontal, 20)
                 .padding(.bottom, 14)
             
             if plan.collaborators.isEmpty {
                 NoCollaboratorView()
-                    .padding(.horizontal, 32)
+                    .padding(.horizontal, 20)
                     .padding(.bottom, 24)
             } else {
                 CollaboratorAvatarList(collaborators: plan.collaborators)
-                    .padding(.horizontal, 32)
+                    .padding(.horizontal, 20)
                     .padding(.bottom, 24)
             }
             
@@ -131,7 +131,7 @@ struct DetailPlanView: View {
                             .fill(Color.primaryBlue)
                     )
             }
-            .padding(.horizontal, 32)
+            .padding(.horizontal, 20)
             .sheet(isPresented: $showCollaborators) {
                 CollaboratorsSheet(
                     selectedCollaborators: $selectedCollaborators,

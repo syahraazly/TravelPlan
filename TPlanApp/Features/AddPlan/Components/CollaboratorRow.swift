@@ -14,19 +14,19 @@ struct CollaboratorRow: View {
     
     var body: some View {
         HStack(spacing: 12) {
-            ZStack {
-                Circle()
-                    .fill(Color.pink.opacity(0.9))
-                    .frame(width: 25, height: 25)
-                
-                Image(systemName: "person.fill")
-                    .font(.caption.weight(.bold))
-                    .foregroundStyle(.yellow)
-            }
+            Image(systemName: "person.fill")
+                .font(.caption.weight(.bold))
+                .foregroundStyle(.yellow)
+                .padding(6)
+                .background(
+                    Circle()
+                        .fill(Color.pink.opacity(0.9))
+                )
             
             Text(name)
                 .font(.callout.weight(.regular))
                 .foregroundStyle(Color(.indigo))
+                .fixedSize(horizontal: false, vertical: true)
             
             Spacer()
             
@@ -47,7 +47,8 @@ struct CollaboratorRow: View {
             }
         }
         .padding(.horizontal, 12)
-        .frame(height: 45)
+//        .frame(height: 45)
+        .padding(.vertical)
         .background(
             RoundedRectangle(cornerRadius: 10)
                 .fill(Color(.platinum))

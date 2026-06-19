@@ -62,7 +62,8 @@ struct TimeRowSelector: View {
                 .buttonStyle(.plain)
             }
             .padding(.horizontal, 12)
-            .frame(height: 58)
+//            .frame(height: 58)
+            .padding(.vertical)
             
             if pickerMode == .date {
                 DatePicker(

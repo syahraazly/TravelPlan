@@ -15,15 +15,27 @@ struct CalendarView: View {
     
     let datesWithEvents: Set<Int>
     
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+
     private let weekdays = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"]
+
+    private var displayedWeekdays: [String] {
+        dynamicTypeSize.isAccessibilitySize
+        ? weekdays.map { String($0.prefix(1)) }
+        : weekdays
+    }
     
     private let columns = Array(
         repeating: GridItem(.flexible(), spacing: 8),
         count: 7
     )
-    
+
     private var monthTitle: String {
-        displayedMonth.formatted(.dateTime.month(.wide).year())
+        if dynamicTypeSize.isAccessibilitySize {
+            return displayedMonth.formatted(.dateTime.month(.abbreviated).year())
+        } else {
+            return displayedMonth.formatted(.dateTime.month(.wide).year())
+        }
     }
     
     private var daysInMonth: Int {
@@ -76,13 +88,11 @@ struct CalendarView: View {
             }
             
             HStack {
-                ForEach(weekdays, id: \.self) { day in
+                ForEach(displayedWeekdays, id: \.self) { day in
                     Text(day)
                         .font(.caption.weight(.semibold))
-                        .foregroundColor(.gray.opacity(0.8))
+                        .foregroundStyle(.gray.opacity(0.8))
                         .frame(maxWidth: .infinity)
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.7)
                 }
             }
             

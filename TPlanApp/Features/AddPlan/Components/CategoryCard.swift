@@ -27,7 +27,8 @@ struct CategoryCard: View {
             }
             .foregroundStyle(isSelected ? .white : category.color)
             .frame(maxWidth: .infinity)
-            .frame(height: 96)
+//            .frame(height: 96)
+            .padding()
             .background(
                 RoundedRectangle(cornerRadius: 12)
                     .fill(
@@ -89,6 +90,7 @@ struct CategoryPreview: View {
             }
         }
         .padding()
+        .dynamicTypeSize(.xSmall ... .xxxLarge)
     }
 }
 

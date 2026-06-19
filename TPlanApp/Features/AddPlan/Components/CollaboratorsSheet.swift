@@ -67,7 +67,8 @@ struct CollaboratorsSheet: View {
                     .foregroundStyle(Color(.indigo))
             }
             .padding(.horizontal, 16)
-            .frame(height: 45)
+//            .frame(height: 45)
+            .padding(.vertical)
             .background(
                 RoundedRectangle(cornerRadius: 10)
                     .fill(Color(.platinum))

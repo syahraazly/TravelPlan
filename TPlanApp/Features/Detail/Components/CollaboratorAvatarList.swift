@@ -21,14 +21,14 @@ struct CollaboratorAvatarList: View {
     var body: some View {
         HStack(spacing: 13) {
             ForEach(visibleCollaborators, id: \.self) { name in
-                Circle()
-                    .fill(Color.pink.opacity(0.9))
-                    .frame(width: 40, height: 40)
-                    .overlay {
-                        Image(systemName: "person.fill")
-                            .foregroundStyle(.yellow)
-                    }
-                    .accessibilityLabel(name)
+                Image(systemName: "person.fill")
+                    .font(.title3)
+                    .foregroundStyle(.yellow)
+                    .padding()
+                    .background(
+                        Circle()
+                            .fill(Color.pink.opacity(0.9))
+                    )
             }
             
             if remainingCount > 0 {

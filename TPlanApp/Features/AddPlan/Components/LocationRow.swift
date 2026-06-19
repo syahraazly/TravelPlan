@@ -21,12 +21,13 @@ struct LocationRow: View {
                 Text(title)
                     .font(.callout.weight(.light))
                     .foregroundStyle(Color(.indigo).opacity(0.9))
-                    .lineLimit(1)
+                    .fixedSize(horizontal: false, vertical: true)
                 
                 Spacer()
             }
             .padding(.horizontal, 16)
-            .frame(height: 54)
+            .padding(.vertical)
+//            .frame(height: 54)
         }
         .buttonStyle(.plain)
     }

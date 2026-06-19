@@ -63,21 +63,28 @@ struct AddPlanView: View {
         VStack(spacing: 0) {
             
             // Header
-            ZStack {
-                
-                Text(mode.title)
-                    .font(.title2.weight(.bold))
-                    .foregroundStyle(Color(.indigo).opacity(0.9))
-            }
-            .padding(.horizontal)
-            .padding(.top, 70)
-            .padding(.bottom, 24)
+//            ZStack {
+//                
+//                Text(mode.title)
+//                    .font(.title2.weight(.bold))
+//                    .foregroundStyle(Color(.indigo).opacity(0.9))
+//            }
+//            .padding(.horizontal)
+//            .padding(.top, 70)
+//            .padding(.bottom, 24)
+            Text(mode.title)
+                        .font(.title2.weight(.bold))
+                        .foregroundStyle(Color(.indigo).opacity(0.9))
+                        .padding(.horizontal)
+                        .padding(.top, 70)
+                        .padding(.bottom, 24)
             
             ScrollView(showsIndicators: false) {
                 VStack(alignment: .leading, spacing: 5) {
                     
                     // Activity
                     SectionTitle("Activity")
+                        .minimumScaleFactor(0.5)
                     
                     VStack(spacing: 0) {
                         TextField("Enter your activity", text: $activity)
@@ -87,7 +94,8 @@ struct AddPlanView: View {
                                 : Color(.indigo)
                             )
                             .padding(.horizontal, 18)
-                            .frame(height: 62)
+//                            .frame(height: 62)
+                            .padding(.vertical)
                         
                         Divider()
                             .opacity(0.25)
@@ -102,12 +110,14 @@ struct AddPlanView: View {
                                         ? Color(.indigo).opacity(0.3)
                                         : Color(.indigo)
                                     )
+                                    .fixedSize(horizontal: false, vertical: true)
                                 
                                 Spacer()
                             }
                             .font(.body)
                             .padding(.horizontal, 18)
-                            .frame(height: 62)
+//                            .frame(height: 62)
+                            .padding(.vertical)
                         }
                         .buttonStyle(.plain)
                         .sheet(isPresented: $showLocationSheet) {
@@ -135,7 +145,8 @@ struct AddPlanView: View {
                                 .labelsHidden()
                         }
                         .padding(.horizontal, 12)
-                        .frame(height: 58)
+//                        .frame(height: 58)
+                        .padding(.vertical)
                         
                         Divider()
                             .opacity(0.25)
@@ -171,7 +182,8 @@ struct AddPlanView: View {
                         }
                         .font(.body)
                         .padding(.horizontal, 18)
-                        .frame(height: 62)
+//                        .frame(height: 62)
+                        .padding(.vertical)
                         .background(
                             RoundedRectangle(cornerRadius: 12)
                                 .fill(Color.white)
@@ -191,7 +203,12 @@ struct AddPlanView: View {
                     // Category
                     SectionTitle("Category")
                     
-                    HStack(spacing: 20) {
+                    LazyVGrid(
+                        columns: [
+                            GridItem(.adaptive(minimum: 100), spacing: 16)
+                        ],
+                        spacing: 16
+                    ) {
                         ForEach(PlanCategory.allCases) { category in
                             CategoryCard(
                                 category: category,
@@ -203,37 +220,39 @@ struct AddPlanView: View {
                     }
                 }
                 .padding(.horizontal, 20)
-                .padding(.bottom, 120)
+                .padding(.bottom, 60)
+                
+                VStack(spacing: 18) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Text(mode.buttonTitle)
+                            .font(.title3.weight(.bold))
+                            .foregroundStyle(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 14)
+                            .background(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .fill(Color.primaryBlue)
+                            )
+                    }
+                    .accessibilityLabel("Save plan")
+                    
+                    Button {
+                        dismiss()
+                    } label: {
+                        Text("Cancel")
+                            .font(.headline.weight(.bold))
+                            .foregroundStyle(Color(.indigo).opacity(0.9))
+                    }
+                    .accessibilityLabel("Cancel")
+                }
+                .padding(.horizontal, 20)
+                .padding(.bottom, 32)
+                .background(Color(.platinum))
             }
             
-            VStack(spacing: 18) {
-                Button {
-                    dismiss()
-                } label: {
-                    Text(mode.buttonTitle)
-                        .font(.title3.weight(.bold))
-                        .foregroundStyle(.white)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 14)
-                        .background(
-                            RoundedRectangle(cornerRadius: 10)
-                                .fill(Color.primaryBlue)
-                        )
-                }
-                .accessibilityLabel("Save plan")
-                
-                Button {
-                    dismiss()
-                } label: {
-                    Text("Cancel")
-                        .font(.headline.weight(.bold))
-                        .foregroundStyle(Color(.indigo).opacity(0.9))
-                }
-                .accessibilityLabel("Cancel")
-            }
-            .padding(.horizontal, 20)
-            .padding(.bottom, 32)
-            .background(Color(.platinum))
+            
         }
         .background(Color(.platinum))
         .ignoresSafeArea()

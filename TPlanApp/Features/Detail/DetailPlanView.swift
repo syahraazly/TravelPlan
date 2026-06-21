@@ -98,14 +98,17 @@ struct DetailPlanView: View {
                 .foregroundStyle(Color(.indigo))
                 .padding(.horizontal, 20)
                 .padding(.bottom, 14)
-                
-                RoundedRectangle(cornerRadius: 12)
-                    .fill(Color(.indigo).opacity(0.8))
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(Color.clear)
                     .frame(height: 260)
                     .overlay {
-                        Text("Map Preview")
-                            .foregroundStyle(.white.opacity(0.8))
+                        Image("map-preview")
+                            .resizable()
+                            .scaledToFill()
                     }
+                    .clipShape(
+                        RoundedRectangle(cornerRadius: 10)
+                    )
                     .padding(.horizontal, 20)
                     .padding(.bottom, 14)
                 

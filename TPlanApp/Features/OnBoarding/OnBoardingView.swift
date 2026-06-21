@@ -33,11 +33,11 @@ struct OnBoardingView: View {
                     VStack(spacing: 4) {
                         Text("Plan beautifully.")
                             .font(.title3)
-                            .foregroundStyle(.gray)
+                            .foregroundStyle(.indigo)
 
                         HStack(spacing: 4) {
                             Text("Travel")
-                                .foregroundStyle(.gray)
+                                .foregroundStyle(.indigo)
 
                             HStack(spacing: 0) {
                                 Text("co")

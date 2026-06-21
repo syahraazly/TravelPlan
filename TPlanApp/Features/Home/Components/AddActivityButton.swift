@@ -10,8 +10,8 @@ import SwiftUI
 struct AddActivityButton: View {
     
     var body: some View {
-        Button {
-            // TODO: handle add activity
+        NavigationLink {
+            AddPlanView()
         } label: {
             HStack(spacing: 8) {
                 Image(systemName: "plus")
@@ -26,7 +26,8 @@ struct AddActivityButton: View {
                     .fill(Color.primaryBlue)
             )
         }
-        .accessibilityLabel("Add plan")
+        .buttonStyle(.plain)
+            
     }
 }
 

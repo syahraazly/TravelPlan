@@ -8,7 +8,11 @@
 import SwiftUI
 
 struct CalendarView: View {
-    private let calendar = Calendar.current
+    private var calendar: Calendar {
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.firstWeekday = 1 // Sunday
+        return calendar
+    }
     
     @State private var displayedMonth: Date = Date()
     @Binding var selectedDay: Int
@@ -45,7 +49,15 @@ struct CalendarView: View {
     private var startingSpaces: Int {
         let components = calendar.dateComponents([.year, .month], from: displayedMonth)
         let firstDay = calendar.date(from: components) ?? displayedMonth
-        return calendar.component(.weekday, from: firstDay) - 1
+        let weekday = calendar.component(.weekday, from: firstDay)
+        
+        return (weekday - calendar.firstWeekday + 7) % 7
+    }
+    
+    private var calendarDays: [Int?] {
+        let emptyDays = Array<Int?>(repeating: nil, count: startingSpaces)
+        let realDays = (1...daysInMonth).map { Optional($0) }
+        return emptyDays + realDays
     }
     
     var body: some View {
@@ -96,25 +108,38 @@ struct CalendarView: View {
                 }
             }
             
-            LazyVGrid(columns: columns, spacing: 8) {
-                ForEach(0..<startingSpaces, id: \.self) { _ in
-                    Color.clear
-                        .frame(height: 48)
-                }
+            GeometryReader { proxy in
                 
-                ForEach(1...daysInMonth, id: \.self) { day in
-                    let date = makeDate(day: day)
+                let spacing: CGFloat = 8
+                let cellWidth = (proxy.size.width - (spacing * 6)) / 7
+
+                LazyVGrid(
+                    columns: Array(
+                        repeating: GridItem(.fixed(cellWidth), spacing: spacing),
+                        count: 7
+                    ),
+                    spacing: spacing
+                ) {
                     
-                    DayCellView(
-                        day: day,
-                        isSelected: day == selectedDay,
-                        hasEvent: datesWithEvents.contains(day),
-                        onTap: {
-                            selectedDay = day
+                    ForEach(calendarDays.indices, id: \.self) { index in
+                        if let day = calendarDays[index] {
+                            DayCellView(
+                                day: day,
+                                isSelected: day == selectedDay,
+                                hasEvent: datesWithEvents.contains(day),
+                                onTap: {
+                                    selectedDay = day
+                                }
+                            )
+                            .frame(width: cellWidth, height: 48)
+                        } else {
+                            Color.clear
+                                .frame(width: cellWidth, height: 48)
                         }
-                    )
+                    }
                 }
             }
+            .frame(height: calendarHeight)
         }
         .padding(20)
         .background(Color.white)
@@ -135,6 +160,12 @@ struct CalendarView: View {
             to: displayedMonth
         ) ?? displayedMonth
     }
+    
+    private var calendarHeight: CGFloat {
+        let totalCells = startingSpaces + daysInMonth
+        let rows = ceil(Double(totalCells) / 7.0)
+        return CGFloat(rows) * 56
+    }
 }
 
 struct DayCellView: View {
@@ -143,9 +174,20 @@ struct DayCellView: View {
     let hasEvent: Bool
     let onTap: () -> Void
     
-    @ScaledMetric(relativeTo: .body) private var circleSize: CGFloat = 32
-    @ScaledMetric(relativeTo: .caption) private var dotSize: CGFloat = 5
-    @ScaledMetric(relativeTo: .body) private var cellHeight: CGFloat = 48
+    @ScaledMetric(relativeTo: .body) private var scaledCircleSize: CGFloat = 32
+    @ScaledMetric(relativeTo: .caption) private var scaledDotSize: CGFloat = 5
+
+    private var circleSize: CGFloat {
+        min(scaledCircleSize, 36)
+    }
+
+    private var dotSize: CGFloat {
+        min(scaledDotSize, 6)
+    }
+
+    private var cellHeight: CGFloat {
+        48
+    }
     
     var body: some View {
         Button(action: onTap) {

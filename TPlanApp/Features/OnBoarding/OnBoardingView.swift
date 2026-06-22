@@ -21,12 +21,12 @@ struct OnBoardingView: View {
 
                 // MARK: Logo
                 VStack(spacing: 18) {
-                    Image("planora-logo")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 120, height: 120)
+//                    Image("planora-logo")
+//                        .resizable()
+//                        .scaledToFit()
+//                        .frame(width: 120, height: 120)
 
-                    Text("Planora")
+                    Text("NGEPLAN")
                         .font(.system(size: 44, weight: .semibold, design: .rounded))
                         .foregroundStyle(Color.indigo)
 

@@ -87,7 +87,7 @@ struct HomeView: View {
             
             // Header
             HStack {
-                Text("PLANORA")
+                Text("NGEPLAN")
                     .font(.title.weight(.bold))
                     .kerning(1.2)
                     .foregroundStyle(Color(.indigo))

@@ -33,133 +33,139 @@ struct DetailPlanView: View {
     }
     
     var body: some View {
-        ScrollView(showsIndicators: false) {
-            VStack(alignment: .leading, spacing: 0) {
-                
-                HStack {
-                    Button {
-                        dismiss()
-                    } label: {
-                        Image(systemName: "chevron.left")
-                            .font(.title3.weight(.bold))
-                            .foregroundStyle(Color(.indigo))
-                        //                        .frame(width: 50, height: 50)
-                            .padding()
-                            .background(Circle().fill(Color.white))
-                    }
-                    
-                    Spacer()
-                    
-                    NavigationLink {
-                        AddPlanView(mode: .edit(plan))
-                    } label: {
-                        Image(systemName: "pencil")
-                            .font(.title3.weight(.bold))
-                            .foregroundStyle(.white)
-                        //                        .frame(width: 50, height: 50)
-                            .padding()
-                            .background(Circle().fill(Color.primaryBlue))
-                    }
-                    .buttonStyle(.plain)
-                }
-                .padding(.horizontal, 20)
-                .padding(.top, 60)
-                .padding(.bottom, 32)
-                
-                HStack(spacing: 10) {
-                    Image(systemName: plan.category.icon)
-                        .font(.body.weight(.regular))
-                        .imageScale(.large)
-                        .foregroundStyle(plan.category.color)
-                        .padding(10)
-                        .frame(minWidth: 40, minHeight: 40)
-                        .background(
-                            RoundedRectangle(cornerRadius: 10)
-                                .fill(plan.category.color.opacity(0.12))
-                        )
-                    
-                    Text(plan.title)
-                        .font(.title.weight(.medium))
-                        .fixedSize(horizontal: false, vertical: true)
-                        .foregroundStyle(Color(.indigo).opacity(0.9))
-                    //                    .lineLimit(2)
-                    //                    .minimumScaleFactor(0.75)
-                }
-                .padding(.horizontal, 20)
-                .padding(.bottom, 14)
-                
-                VStack(alignment: .leading, spacing: 10) {
-                    Label(dateText, systemImage: "calendar")
-                        .fixedSize(horizontal: false, vertical: true)
-                    Label(timeText, systemImage: "clock.fill")
-                        .fixedSize(horizontal: false, vertical: true)
-                }
-                .font(.body.weight(.regular))
-                .foregroundStyle(Color(.indigo))
-                .padding(.horizontal, 20)
-                .padding(.bottom, 14)
-                RoundedRectangle(cornerRadius: 10)
-                    .fill(Color.clear)
-                    .frame(height: 260)
-                    .overlay {
-                        Image("map-preview")
-                            .resizable()
-                            .scaledToFill()
-                    }
-                    .clipShape(
-                        RoundedRectangle(cornerRadius: 10)
-                    )
-                    .padding(.horizontal, 20)
-                    .padding(.bottom, 14)
-                
-                Text("Collaborators")
-                    .font(.title3.weight(.medium))
-                    .foregroundStyle(Color(.indigo))
-                    .padding(.horizontal, 20)
-                    .padding(.bottom, 14)
-                
-                if plan.collaborators.isEmpty {
-                    NoCollaboratorView()
-                        .padding(.horizontal, 20)
-                        .padding(.bottom, 24)
-                } else {
-                    CollaboratorAvatarList(collaborators: plan.collaborators)
-                        .padding(.horizontal, 20)
-                        .padding(.bottom, 24)
-                }
-                
+        VStack(spacing: 0) {
+            HStack {
                 Button {
-                    showCollaborators = true
+                    dismiss()
                 } label: {
-                    Label("Add Collaborators", systemImage: "plus")
+                    Image(systemName: "chevron.left")
                         .font(.title3.weight(.bold))
-                        .foregroundStyle(.white)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 18)
-                        .background(
-                            RoundedRectangle(cornerRadius: 10)
-                                .fill(Color.primaryBlue)
-                        )
-                }
-                .padding(.horizontal, 20)
-                .sheet(isPresented: $showCollaborators) {
-                    CollaboratorsSheet(
-                        selectedCollaborators: $selectedCollaborators,
-                        collaboratorText: $collaborator
-                    )
-                    .presentationDetents([.large])
-                    .presentationDragIndicator(.hidden)
+                        .foregroundStyle(Color(.indigo))
+                    //                        .frame(width: 50, height: 50)
+                        .padding()
+                        .background(Circle().fill(Color.white))
                 }
                 
                 Spacer()
+                
+                NavigationLink {
+                    AddPlanView(mode: .edit(plan))
+                } label: {
+                    Image(systemName: "pencil")
+                        .font(.title3.weight(.bold))
+                        .foregroundStyle(.white)
+                    //                        .frame(width: 50, height: 50)
+                        .padding()
+                        .background(Circle().fill(Color.primaryBlue))
+                }
+                .buttonStyle(.plain)
+            }
+            .padding(.horizontal, 20)
+//                .padding(.top, 60)
+            .padding(.bottom, 32)
+            
+            ScrollView(showsIndicators: false) {
+                VStack(alignment: .leading, spacing: 0) {
+                    
+                    
+                    
+                    HStack(spacing: 10) {
+                        Image(systemName: plan.category.icon)
+                            .font(.body.weight(.regular))
+                            .imageScale(.large)
+                            .foregroundStyle(plan.category.color)
+                            .padding(10)
+                            .frame(minWidth: 40, minHeight: 40)
+                            .background(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .fill(plan.category.color.opacity(0.12))
+                            )
+                        
+                        Text(plan.title)
+                            .font(.title.weight(.medium))
+                            .fixedSize(horizontal: false, vertical: true)
+                            .foregroundStyle(Color(.indigo).opacity(0.9))
+                        //                    .lineLimit(2)
+                        //                    .minimumScaleFactor(0.75)
+                    }
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 14)
+                    
+                    VStack(alignment: .leading, spacing: 10) {
+                        Label(dateText, systemImage: "calendar")
+                            .fixedSize(horizontal: false, vertical: true)
+                        Label(timeText, systemImage: "clock.fill")
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                    .font(.body.weight(.regular))
+                    .foregroundStyle(Color(.indigo))
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 14)
+                    RoundedRectangle(cornerRadius: 10)
+                        .fill(Color.clear)
+                        .frame(height: 260)
+                        .overlay {
+                            Image("map-preview")
+                                .resizable()
+                                .scaledToFill()
+                        }
+                        .clipShape(
+                            RoundedRectangle(cornerRadius: 10)
+                        )
+                        .padding(.horizontal, 20)
+                        .padding(.bottom, 14)
+                    
+                    Text("Collaborators")
+                        .font(.title3.weight(.medium))
+                        .foregroundStyle(Color(.indigo))
+                        .padding(.horizontal, 20)
+                        .padding(.bottom, 14)
+                    
+                    if plan.collaborators.isEmpty {
+                        NoCollaboratorView()
+                            .padding(.horizontal, 20)
+                            .padding(.bottom, 24)
+                    } else {
+                        CollaboratorAvatarList(collaborators: plan.collaborators)
+                            .padding(.horizontal, 20)
+                            .padding(.bottom, 24)
+                    }
+                    
+                    Button {
+                        showCollaborators = true
+                    } label: {
+                        Label("Add Collaborators", systemImage: "plus")
+                            .font(.title3.weight(.bold))
+                            .foregroundStyle(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 18)
+                            .background(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .fill(Color.primaryBlue)
+                            )
+                    }
+                    .padding(.horizontal, 20)
+                    .sheet(isPresented: $showCollaborators) {
+                        CollaboratorsSheet(
+                            selectedCollaborators: $selectedCollaborators,
+                            collaboratorText: $collaborator
+                        )
+                        .presentationDetents([.large])
+                        .presentationDragIndicator(.hidden)
+                    }
+                    
+                    Spacer()
+                }
+    //            .background(Color(.platinum))
+    //            .ignoresSafeArea()
+    //            .navigationBarBackButtonHidden(true)
             }
 //            .background(Color(.platinum))
-//            .ignoresSafeArea()
-//            .navigationBarBackButtonHidden(true)
+    //        .ignoresSafeArea()
+            .navigationBarBackButtonHidden(true)
         }
         .background(Color(.platinum))
-        .ignoresSafeArea()
-        .navigationBarBackButtonHidden(true)
+        
     }
 }
 
